@@ -115,7 +115,7 @@ function drawPin(angle) {
 
 // Event Listeners
 spinButton.addEventListener('click', () => {
-    drawWheel();
+    drawWheel();  // Initial drawing of the wheel
     spinWheel();
 });
 
