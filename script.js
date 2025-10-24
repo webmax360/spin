@@ -74,7 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to animate the spin
     function animateSpin() {
         if (spinning) {
-            currentAngle += (targetAngle - currentAngle) * 0.1;  // Gradual approach
+            // Gradually move currentAngle towards targetAngle for a smoother spin
+            currentAngle += (targetAngle - currentAngle) * 0.1;
             drawWheel();
             requestAnimationFrame(animateSpin);
         }
@@ -82,29 +83,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to stop the wheel
     function stopWheel() {
-    spinning = false;
-    
-    // Normalize the current angle within the range of 0 to 2 * Math.PI
-    const normalizedAngle = (currentAngle % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
-    
-    // Calculate the index based on the normalized angle
-    const winningColorIndex = Math.floor((normalizedAngle / (2 * Math.PI)) * colorNames.length);
-    const winningColor = colorNames[winningColorIndex].color;
+        spinning = false;
+        
+        // Normalize the current angle within 0 to 2 * Math.PI
+        const normalizedAngle = (currentAngle % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
 
-    // Mark the color as chosen and update session storage
-    if (!chosenColors.includes(winningColor)) {
-        chosenColors.push(winningColor);
-        sessionStorage.setItem('chosenColors', JSON.stringify(chosenColors));
+        // Calculate the index based on the normalized angle
+        const winningColorIndex = Math.floor((normalizedAngle / (2 * Math.PI)) * colorNames.length);
+        const winningColor = colorNames[winningColorIndex].color;
+
+        // Mark the color as chosen and update session storage
+        if (!chosenColors.includes(winningColor)) {
+            chosenColors.push(winningColor);
+            sessionStorage.setItem('chosenColors', JSON.stringify(chosenColors));
+        }
+
+        // Draw a pin at the winning color location
+        const pinAngle = winningColorIndex * anglePerColor + anglePerColor / 2;
+        drawPin(pinAngle);
+
+        // Re-render the wheel without the chosen color
+        drawWheel();
     }
-
-    // Draw a pin at the winning color location
-    const pinAngle = winningColorIndex * anglePerColor + anglePerColor / 2;
-    drawPin(pinAngle);
-
-    // Re-render the wheel without the chosen color
-    drawWheel();
-}
-
 
     // Function to draw a pin at the stop location
     function drawPin(angle) {
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.restore();
     }
 
-    // Event Listeners
+    // Event Listeners for Spin and Stop Buttons
     spinButton.addEventListener('click', () => {
         drawWheel();  // Initial drawing of the wheel
         spinWheel();
