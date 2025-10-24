@@ -55,7 +55,7 @@ function drawWheel() {
         ctx.save();
         ctx.translate(200, 200);
         ctx.rotate(textAngle);
-        ctx.fillStyle = 'white';
+        ctx.fillStyle = 'black';  // Set text color to black
         ctx.font = '14px Arial';
         ctx.fillText(name, 100, 0); // Adjust position as necessary
         ctx.restore();
